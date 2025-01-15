@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email</title>
+</head>
+<style>
+    *{
+     span {
+         color: black;
+         font-weight: bold;
+     }
+     p {
+         font-weight: bold;
+         color: black;
+     }
+    }
+</style>
+<body>
+<!--
+    Note! it mapped Connect class auto
+    Note! Subject will remove if subject have had value
+    Note! Style tag will work on email
+-->
+
+<p th:text="${p0}">P0 fix length 10</p>
+<p>The email have been successfully sent to you on <span th:text="${date}"></span></p>
+<span th:text="${p1}">P1 fix length 55 </span>
+<br/>
+<span th:text="${p2}">P2 fix length 55</span>
+<br/>
+<span th:text="${p3}">P3 fix length 55</span>
+<br/>
+<span th:text="${p4}">P4 fix length 55</span>
+<p>
+    Best Regard, &#129309;
+        <br/>
+        <span style="background: aquamarine;padding: 8px; margin-top: 10px; display: inline-block">Thitikorn Nupan (Own Bot)</span>
+</p>
+</body>
+</html>
