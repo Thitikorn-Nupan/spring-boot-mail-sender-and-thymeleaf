@@ -13,11 +13,19 @@ import org.thymeleaf.context.Context;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/*
- // *** if you wanna use this Service (Bean) you have to inject first
+/**
+ if you wanna use this Service (Bean) you have to inject first
  The EmailSender class has a constructor that takes an instance of JavaMailSender as a parameter.
  It also has a sendEmail method that sends an email with the specified email address, subject, and content.
  We utilize the MimeMessageHelper class to set up the email message
+ <br>
+ <h3>About class</h3>
+ MailSender interface: the top-level interface that provides basic functionality for sending simple emails
+ JavaMailSender interface: the subinterface of the above MailSender. It supports MIME messages and is mostly used in conjunction with the MimeMessageHelper class for the creation of a MimeMessage. It’s recommended to use the MimeMessagePreparator mechanism with this interface.
+ JavaMailSenderImpl class provides an implementation of the JavaMailSender interface. It supports the MimeMessage and SimpleMailMessage.
+ SimpleMailMessage class: used to create a simple mail message including the from, to, cc, subject and text fields
+ MimeMessagePreparator interface provides a callback interface for the preparation of MIME messages.
+ MimeMessageHelper class: helper class for the creation of MIME messages. It offers support for images, typical mail attachments and text content in an HTML layout.
 */
 @Service
 public class GmailService {
@@ -51,6 +59,7 @@ public class GmailService {
             mimeMessageHelper.setSubject(subject);
             // connect as texts but you can use html syntax with it
             mimeMessageHelper.setText(content, true);
+            // req it.
             mailSender.send(mimeMessage);
             return true;
         } catch (Exception e) {
@@ -59,9 +68,9 @@ public class GmailService {
         }
     }
 
-    /**
-     *** all html files should be on src/main/resources/templates
-     Thymeleaf ยังสามารถประมวลผล template ที่เป็นข้อความ (Text) อย่างเดียวได้ ซึ่งจะต้องกำหนด Template Resovlver
+    /*
+     All html files should be on src/main/resources/templates if you use a default thymeleaf spring boot
+     Thymeleaf can't process the template only texts , So i have to use Template Resovlver help it
      ขึ้นมาเองและใช้ Text Mode ซึ่งจะไม่ต้องยุ่งยากกับ tag HTML แต่ก็มีข้อจำกัดมาก ซึ่งการใช้ HTML Mode จะยืดหยุ่นที่สุด
     */
     public Boolean sendEmailContentAsHTMLFile(String subject, String email,String p0,String p1, String p2,String p3, String p4) {
@@ -85,6 +94,7 @@ public class GmailService {
             // ** convert html file to string
             String content = templateEngine.process("email_receipt.html", context); // convert html to string
             messageHelper.setText(content, true);
+            // req it.
             mailSender.send(mimeMessage);
             return true;
         } catch (Exception e) {

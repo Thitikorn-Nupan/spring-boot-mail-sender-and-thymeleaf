@@ -7,8 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class UnderstandSpringMailSenderApplication {
 
-    /**
-    // Create an instance of JavaMailSender
+    /*
+    Create an instance of JavaMailSender
     private static GmailService gmailService;
     private static Logger logger;
     // Then inject it
@@ -17,13 +17,6 @@ public class UnderstandSpringMailSenderApplication {
         this.gmailService = service;
         logger = (Logger) LoggerFactory.getLogger(this.getClass());
     }
-    */
-
-    public static void main(String[] args) {
-        SpringApplication.run(UnderstandSpringMailSenderApplication.class, args);
-    }
-
-    /**
     private static void testJavaMailSender() {
         String recipientEmail = "thitikorn_nupan@outlook.co.th";
         String subject = "Greetings from Spring Boot Application";
@@ -40,4 +33,9 @@ public class UnderstandSpringMailSenderApplication {
         logger.info("Email sent to {} is successfully!", recipientEmail);
     }
     */
+
+    public static void main(String[] args) {
+        SpringApplication.run(UnderstandSpringMailSenderApplication.class, args);
+    }
+
 }

@@ -2,7 +2,13 @@
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <!-- looks like => 22:39:23.992 [main] DEBUG c.t.server.controller.RouteControl : Hello World -->
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} : %msg%n</pattern>
+            <!--<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} : %msg%n</pattern>-->
+            <!-- 19:02:00.433 [main] WARN  c.t.u.UnderstandLog4jNewVersionApplication 21 : Hello World -->
+            <!--<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} %line : %msg%n</pattern>-->
+            <!--2025-02-25 18:59:48.425 [main] WARN  c.t.u.UnderstandLog4jNewVersionApplication.displayLogBack(21) - Hello World-->
+            <!--<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M\(%line\) - %msg%n</pattern>-->
+            <!-- color good for console but it's not in file -->
+            <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} %highlight(%-5level) [%blue(%t)] %green(%logger{45}) %line : %msg%n%throwable</pattern>
         </encoder>
     </appender>
     <root level="INFO,DEBUG">
