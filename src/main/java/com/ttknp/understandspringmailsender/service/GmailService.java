@@ -4,12 +4,14 @@ import ch.qos.logback.classic.Logger;
 import jakarta.mail.internet.MimeMessage;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -104,9 +106,41 @@ public class GmailService {
     }
 
 
+    public Boolean sendEmailContentAsPdfFile(String subject, String email) {
+        try {
+            // ** work with JavaMailSender
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true);
+            // ** set up email below
+            messageHelper.setTo(email);
+            // Pass 'true' for HTML content
+            messageHelper.setText("Sending The Pdf File", true);
+            messageHelper.setFrom(FROM_SMTP);
+            messageHelper.setSubject(subject);
+            // FileSystemResource pdfFile = getAbsPdfFile("B:\\practice-java-one-jetbrains\\spring-boot-skills\\lab_core_32\\understand-spring-mail-sender\\src\\main\\resources\\pdf\\order_items.pdf");
+            FileSystemResource pdfFile = getRootPdfFile("src/main/resources/pdf/order_items.pdf");
+            messageHelper.addAttachment(pdfFile.getFilename(), pdfFile);
+            logger.info("pdfFile {}", pdfFile.getFilename());
+            mailSender.send(mimeMessage);
+            return true;
+        } catch (Exception e) {
+            logger.error("Error: {}", e.getMessage());
+            return false;
+        }
+    }
+
+
     private String getLocalDatetime () {
         LocalDateTime myDateObj = LocalDateTime.now();
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         return myDateObj.format(myFormatObj); // 14-01-2025 16:27:54
+    }
+
+    private FileSystemResource getAbsPdfFile(String pathToFile) {
+        return new FileSystemResource(new File(pathToFile));
+    }
+
+    private FileSystemResource getRootPdfFile(String pathToFile) {
+        return new FileSystemResource(pathToFile);
     }
 }

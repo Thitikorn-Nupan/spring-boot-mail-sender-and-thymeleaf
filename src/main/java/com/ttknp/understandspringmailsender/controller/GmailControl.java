@@ -3,6 +3,7 @@ package com.ttknp.understandspringmailsender.controller;
 import com.ttknp.understandspringmailsender.entity.Information;
 import com.ttknp.understandspringmailsender.service.GmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,15 +21,22 @@ public class GmailControl {
     @PostMapping(value = "/send/v1")
     private ResponseEntity<Boolean> sendGmailHTMLString(@RequestBody Information information) {
         return ResponseEntity
-                .status(202)
+                .status(HttpStatus.ACCEPTED)
                 .body(gmailService.sendEmailContentAsHTMLString(information.subject,information.receiptEmail,information.content));
     }
 
     @PostMapping(value = "/send/v2")
     private ResponseEntity<Boolean> sendGmailHTMLFile(@RequestBody Information information) {
         return ResponseEntity
-                .status(202)
+                .status(HttpStatus.ACCEPTED)
                 .body(gmailService.sendEmailContentAsHTMLFile(information.subject,information.receiptEmail,information.p0,information.p1,information.p2,information.p3,information.p4));
+    }
+
+    @PostMapping(value = "/send/v3")
+    private ResponseEntity<Boolean> sendGmailPdfFile(@RequestBody Information information) {
+        return ResponseEntity
+                .status(HttpStatus.ACCEPTED)
+                .body(gmailService.sendEmailContentAsPdfFile(information.subject,information.receiptEmail));
     }
 
 }
